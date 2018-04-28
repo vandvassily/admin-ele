@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Layout from '@/pages/layout'
 import Page404 from '@/pages/404'
+import Login from '@/pages/login/index.vue'
 
 Vue.use(Router)
 
@@ -22,6 +23,12 @@ const constantRouters = [
     component: Page404,
     name: '404',
     meta: { title: '404', icon: 'icon404' }
+  },
+  {
+    path: '/login',
+    component: Login,
+    name: 'login',
+    meta: { title: 'login', icon: 'login' }
   },
   {
     path: '*',
