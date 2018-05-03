@@ -67,7 +67,7 @@ Axios.interceptors.response.use(
     if (!window.localStorage.getItem('loginUserBaseInfo')) {
       // 若是接口访问的时候没有发现有鉴权的基础信息,直接返回登录页
       router.push({
-        path: '/login'
+        path: '/404'
       })
     } else {
       // 若是有基础信息的情况下,判断时间戳和当前的时间,若是当前的时间大于服务器过期的时间
@@ -85,7 +85,7 @@ Axios.interceptors.response.use(
           type: 'error'
         })
         router.push({
-          path: '/login'
+          path: '/404'
         })
       } else {
         // 下面是接口回调的satus ,因为我做了一些错误页面,所以都会指向对应的报错页面
