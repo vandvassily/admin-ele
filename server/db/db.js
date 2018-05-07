@@ -20,6 +20,10 @@ const userSchema = mongoose.Schema({
 //   User: mongoose.model('User', userSchema)
 // };
 
+const handleError = (err) => {
+  console.log(err)
+}
+
 var User = mongoose.model('User', userSchema)
 var silence = new User({ username: 'Silence' })
 silence.save(function (err) {

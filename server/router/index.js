@@ -3,7 +3,7 @@ const router = new Router()
 const homeRouter = require('./home')
 
 module.exports = (app) => {
-    router.get( '/', homeRouter.index )
+  router.get('/', homeRouter.index)
 
-    app.use(router.routes()).use(router.allowedMethods())
+  app.use(router.routes()).use(router.allowedMethods())
 }
