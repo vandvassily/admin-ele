@@ -1,16 +1,16 @@
 <template>
 <el-container style="background: #2c3e50;height: 100vh">
   <div class="login-form">
-    <el-form :model="login" status-icon :rules="loginRule" ref="loginForm" label-width="60px">
+    <el-form :model="signup" status-icon :rules="signupRole" ref="signupForm" label-width="60px">
       <el-form-item label="账号" prop="username">
-        <el-input type="text" v-model="login.username" auto-complete="off"></el-input>
+        <el-input type="text" v-model="signup.username" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item label="密码" prop="pass">
-        <el-input type="password" v-model="login.pass" auto-complete="off"></el-input>
+        <el-input type="password" v-model="signup.pass" auto-complete="off"></el-input>
       </el-form-item>
     </el-form>
     <div class="submit-btn">
-      <el-button type="primary" @click="submitForm('loginForm')">登录</el-button>
+      <el-button type="primary" @click="submitForm('signupForm')">注册</el-button>
     </div>
   </div>
 </el-container>
@@ -18,7 +18,7 @@
 
 <script>
 export default {
-  name: 'login',
+  name: 'signup',
   data () {
     var checkUsername = (rule, value, callback) => {
       if (!value) {
@@ -35,11 +35,11 @@ export default {
       }
     }
     return {
-      login: {
+      signup: {
         username: '',
         pass: ''
       },
-      loginRule: {
+      signupRole: {
         pass: [
           { validator: validatePass, trigger: 'blur' }
         ],
@@ -56,16 +56,14 @@ export default {
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.$http.post('api/login', {username: this.login.username, password: this.login.pass}).then((res) => {
+          this.$http.post('api/register', {username: this.signup.username, password: this.signup.pass}).then((res) => {
+            this.$message({
+              showClose: true,
+              message: res.message,
+              type: res.success ? 'success' : 'error'
+            })
             if (res.success === true) {
-              this.$message({
-                showClose: true,
-                message: res.message,
-                type: 'success'
-              })
-              localStorage.token = res.token
-              localStorage.username = res.username
-              setTimeout(this.$router.push({ path: '/' }), 300)
+              setTimeout(this.$router.push({ path: '/login' }), 300)
             }
           })
         } else {

@@ -3,7 +3,7 @@ import qs from 'qs'
 import { Message } from 'element-ui'
 import router from '../router'
 
-const devUrl = 'http://localhost:8080/api'
+const devUrl = 'http://localhost:8080'
 const prodUrl = 'http://www.baidu.com'
 
 const apiBaseUrl = process.env.NODE_ENV === 'production' ? prodUrl : devUrl
@@ -52,14 +52,12 @@ Axios.interceptors.response.use(
       Message({
         //  饿了么的消息弹窗组件,类似toast
         showClose: true,
-        message: res.data.error.message.message
-          ? res.data.error.message.message
-          : res.data.error.message,
+        message: res.data.message,
         type: 'error'
       })
-      return Promise.reject(res.data.error.message)
+      // return Promise.reject(res.data)
     }
-    return res
+    return res.data
   },
   error => {
     // 用户登录的时候会拿到一个基础信息,比如用户名,token,过期时间戳
@@ -105,6 +103,5 @@ Axios.interceptors.response.use(
 export default{
   install: function (Vue, option) {
     Vue.prototype.$http = Axios
-    // Object.defineProperty(Vue.prototype, '$http', { value: Axios })
   }
 }

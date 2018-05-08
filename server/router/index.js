@@ -3,7 +3,10 @@ const router = new Router()
 const homeRouter = require('./home')
 
 module.exports = (app) => {
-  router.get('/', homeRouter.index)
+  // router.get('/', homeRouter.index)
+  router.post('/login', homeRouter.Login)
+  router.post('/register', homeRouter.Register)
+  router.post('/password-reset', homeRouter.PasswordReset)
 
   app.use(router.routes()).use(router.allowedMethods())
 }

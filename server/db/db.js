@@ -11,22 +11,22 @@ db.once('open', function () {
 const userSchema = mongoose.Schema({
   username: String,
   password: String,
-  // recheck: String,
-  token: String,
-  create_time: Date
+  create_time: Date,
+  update_time: Date
 })
 // 根据schema生成model
-// const model = {
-//   User: mongoose.model('User', userSchema)
-// };
-
-const handleError = (err) => {
-  console.log(err)
+const model = {
+  User: mongoose.model('User', userSchema)
 }
 
-var User = mongoose.model('User', userSchema)
-var silence = new User({ username: 'Silence' })
-silence.save(function (err) {
-  if (err) return handleError(err)
-  // saved!
-})
+// const handleError = (err) => {
+//   console.log(err)
+// }
+module.exports = model
+
+// var User = mongoose.model('User', userSchema)
+// var silence = new User({ username: 'Silence' })
+// silence.save(function (err) {
+//   if (err) return handleError(err)
+//   // saved!
+// })
