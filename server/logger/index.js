@@ -35,10 +35,45 @@ log4js.configure({
   }
 })
 
-const logger = log4js.getLogger('cheese')
-logger.trace('Entering cheese testing')
-logger.debug('Got cheese.')
-logger.info('Cheese is Gouda.')
-logger.warn('Cheese is quite smelly.')
-logger.error('Cheese is too ripe!')
-logger.fatal('Cheese was breeding ground for listeria.')
+let logger = {}
+
+const formatError = (ctx, err, costTime) => {
+  let method = ctx.method
+  let url = ctx.url
+  let body = ctx.request.body['username']
+  let userAgent = ctx.header['user-agent']
+  return {method, url, body, userAgent, costTime, err}
+}
+const formatRes = (ctx, costTime) => {
+  let method = ctx.method
+  let url = ctx.url
+  let body = ctx.request.body['username']
+  let response = ctx.response
+  let userAgent = ctx.header['user-agent']
+  return {method, url, body, costTime, userAgent, response}
+}
+
+let errorLogger = log4js.getLogger('error')
+let resLogger = log4js.getLogger('response')
+// 封装错误日志
+logger.errLogger = (ctx, error, resTime) => {
+  if (ctx && error) {
+    errorLogger.error(formatError(ctx, error, resTime))
+  }
+}
+// 封装响应日志
+logger.resLogger = (ctx, resTime) => {
+  if (ctx) {
+    resLogger.info(formatRes(ctx, resTime))
+  }
+}
+
+module.exports = logger
+
+// const logger = log4js.getLogger('cheese')
+// logger.trace('Entering cheese testing')
+// logger.debug('Got cheese.')
+// logger.info('Cheese is Gouda.')
+// logger.warn('Cheese is quite smelly.')
+// logger.error('Cheese is too ripe!')
+// logger.fatal('Cheese was breeding ground for listeria.')
