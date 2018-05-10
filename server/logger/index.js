@@ -17,11 +17,20 @@ log4js.configure({
       alwaysIncludePattern: true,
       maxLogSize: 104800,
       backups: 100
+    },
+    request: {
+      type: 'dateFile',
+      category: 'reqLogger',
+      filename: path.join(__dirname, '/../../logs/req.log'),
+      pattern: 'yyyy-MM-dd.log', // 日志输出模式
+      alwaysIncludePattern: true,
+      maxLogSize: 104800,
+      backups: 100
     }
   },
   categories: {
     default: {
-      appenders: ['response'],
+      appenders: ['request'],
       level: 'info'
     },
     error: {
@@ -30,6 +39,10 @@ log4js.configure({
     },
     response: {
       appenders: ['response'],
+      level: 'info'
+    },
+    request: {
+      appenders: ['request'],
       level: 'info'
     }
   }
@@ -53,8 +66,18 @@ const formatRes = (ctx, costTime) => {
   return {method, url, body, costTime, userAgent, response}
 }
 
+const formatReq = (ctx) => {
+  let method = ctx.method
+  let url = ctx.url
+  let body = ctx.request.body['username']
+  let request = ctx.request
+  let userAgent = ctx.header['user-agent']
+  return {method, url, body, userAgent, request}
+}
+
 let errorLogger = log4js.getLogger('error')
 let resLogger = log4js.getLogger('response')
+let reqLogger = log4js.getLogger('request')
 // 封装错误日志
 logger.errLogger = (ctx, error, resTime) => {
   if (ctx && error) {
@@ -65,6 +88,13 @@ logger.errLogger = (ctx, error, resTime) => {
 logger.resLogger = (ctx, resTime) => {
   if (ctx) {
     resLogger.info(formatRes(ctx, resTime))
+  }
+}
+
+// 封装请求日志
+logger.reqLogger = (ctx) => {
+  if (ctx) {
+    reqLogger.info(formatReq(ctx))
   }
 }
 

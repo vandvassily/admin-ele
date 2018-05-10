@@ -12,6 +12,7 @@ app.use(bodyParser())
 // 对于任何请求，app将调用该异步函数处理请求：
 const handler = async (ctx, next) => {
   try {
+    logger.reqLogger(ctx)
     const start = new Date()
     await next()
     const ms = new Date() - start

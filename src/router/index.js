@@ -65,11 +65,14 @@ router.beforeEach((to, from, next) => {
   // 判断是否需要登录权限
     if (window.localStorage.token) {
       let decoded = jwt.decode(window.localStorage.token)
-      if (decoded.exp > new Date().getTime()) {
+      if (decoded.exp < Math.round(new Date().getTime() / 1000)) {
         Message({
           showClose: true,
           message: '登录状态信息过期,请重新登录',
           type: 'error'
+        })
+        next({
+          path: '/login'
         })
       } else {
         next()

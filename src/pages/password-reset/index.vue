@@ -80,6 +80,12 @@ export default {
             if (res.success === true) {
               setTimeout(this.$router.push({ path: '/login' }), 300)
             }
+          }).catch((err) => {
+            this.$message({
+              showClose: true,
+              message: err.message,
+              type: 'error'
+            })
           })
         } else {
           this.$message({

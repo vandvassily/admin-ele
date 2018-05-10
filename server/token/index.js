@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 const secret = 'zhs' // 加密秘钥
-const tokenTime = '1h' // token有效时间
+const tokenTime = '30s' // token有效时间
 
 const createToken = (username) => {
   const token = jwt.sign({
@@ -11,22 +11,17 @@ const createToken = (username) => {
   return token
 }
 
-const checkToken = (token) => {
-  jwt.verify(token, secret, function (err, decoded) {
-    let result = {
-      success: false,
-      username: '',
-      message: ''
+const checkToken = async (ctx, next) => {
+  if (ctx.request.header['authorization']) {
+    const token = ctx.request.header['authorization']
+    try {
+      await jwt.verify(token, secret)
+    } catch (error) {
+      ctx.throw(401, 'invalid token')
     }
-    if (!err) {
-      console.log(decoded) // 会输出username
-      result.success = true
-      result.username = decoded.username
-    } else {
-      result.message = err.message
-    }
-    return result
-  })
+  } else {
+    ctx.throw(401, 'no token')
+  }
 }
 
 module.exports = {
