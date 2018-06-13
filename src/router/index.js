@@ -6,6 +6,7 @@ import Page404 from '@/pages/404'
 import Login from '@/pages/login'
 import Signup from '@/pages/signup'
 import PasswordReset from '@/pages/password-reset'
+import Form from '@/pages/form'
 import jwt from 'jsonwebtoken'
 
 Vue.use(Router)
@@ -21,6 +22,12 @@ const constantRouters = [
     component: Layout,
     name: 'dashboard',
     meta: { title: 'dashboard', icon: 'dashboard', requireLogin: true }
+  },
+  {
+    path: '/form',
+    component: Form,
+    name: 'form',
+    meta: { title: 'form', icon: 'form', requireLogin: true }
   },
   {
     path: '/404',

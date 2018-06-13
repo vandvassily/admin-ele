@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 const secret = 'zhs' // 加密秘钥
-const tokenTime = '30s' // token有效时间
+const tokenTime = '600s' // token有效时间
 
 const createToken = (username) => {
   const token = jwt.sign({
