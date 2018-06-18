@@ -9,7 +9,7 @@
           <el-input type="password" v-model="signup.password" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="新密码" prop="newPassword">
-          <el-input type="password" v-model="signup.newPassword" auto-complete="off"></el-input>
+          <el-input type="password" @keyup.enter.native="submitForm('signupForm')"  v-model="signup.newPassword" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
       <div class="submit-btn">

@@ -8,6 +8,8 @@ import Signup from '@/pages/signup'
 import PasswordReset from '@/pages/password-reset'
 import Form from '@/pages/form'
 import jwt from 'jsonwebtoken'
+import NProgress from 'nprogress' // progress bar
+import 'nprogress/nprogress.css'// progress bar style
 
 Vue.use(Router)
 
@@ -68,6 +70,7 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
+  NProgress.start()
   if (to.matched.some(res => res.meta.requireLogin)) {
   // 判断是否需要登录权限
     if (window.localStorage.token) {
@@ -83,6 +86,7 @@ router.beforeEach((to, from, next) => {
         })
       } else {
         next()
+        NProgress.done()
       }
     } else {
       Message({
@@ -96,7 +100,12 @@ router.beforeEach((to, from, next) => {
     }
   } else {
     next()
+    NProgress.done()
   }
+})
+
+router.afterEach(() => {
+  NProgress.done()
 })
 
 export default router

@@ -6,7 +6,7 @@
         <el-input type="text" v-model="signup.username" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item label="密码" prop="pass">
-        <el-input type="password" v-model="signup.pass" auto-complete="off"></el-input>
+        <el-input type="password" @keyup.enter.native="submitForm('signupForm')" v-model="signup.pass" auto-complete="off"></el-input>
       </el-form-item>
     </el-form>
     <div class="submit-btn">
