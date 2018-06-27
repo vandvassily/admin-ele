@@ -8,6 +8,7 @@ module.exports = (app) => {
   router.post('/login', homeRouter.Login)
   router.post('/register', homeRouter.Register)
   router.post('/password-reset', token.checkToken, homeRouter.PasswordReset)
+  router.post('/user/info', homeRouter.GetUserInfo)
 
   app.use(router.routes()).use(router.allowedMethods())
 }

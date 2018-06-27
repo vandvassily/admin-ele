@@ -59,6 +59,7 @@ Axios.interceptors.response.use(
         message: res.data.message,
         type: 'error'
       })
+      console.log(1234)
       // return Promise.reject(res.data)
     }
     return res.data
@@ -86,8 +87,4 @@ Axios.interceptors.response.use(
   }
 )
 
-export default {
-  install: function (Vue, option) {
-    Vue.prototype.$http = Axios
-  }
-}
+export default Axios

@@ -11,6 +11,10 @@ db.once('open', function () {
 const userSchema = mongoose.Schema({
   username: String,
   password: String,
+  roles: {
+    type: String,
+    default: 'user'
+  },
   create_time: Date,
   update_time: Date
 })

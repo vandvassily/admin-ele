@@ -47,6 +47,7 @@ const Login = async (ctx) => {
     ctx.body = {
       success: true,
       username,
+      roles: doc.roles,
       token: userToken, // 登录成功要创建一个新的token,应该存入数据库
       create_time: doc.create_time,
       message: '登录成功'
@@ -56,6 +57,31 @@ const Login = async (ctx) => {
     ctx.body = {
       success: false,
       message: '密码错误'
+    }
+  }
+}
+
+// 获取用户信息
+const GetUserInfo = async (ctx) => {
+  let username = token.getUsername(ctx.request.header['authorization'])
+  let doc = await findUser(username)
+  if (!doc) {
+    ctx.status = 200
+    ctx.body = {
+      success: false,
+      message: '检查到用户名不存在'
+    }
+  } else {
+    // 创建token
+    let userToken = token.createToken(username)
+    ctx.status = 200
+    ctx.body = {
+      success: true,
+      username,
+      roles: doc.roles,
+      token: userToken,
+      create_time: doc.create_time,
+      message: '获取用户信息成功'
     }
   }
 }
@@ -145,5 +171,6 @@ const ChangePassword = async (ctx) => {
 module.exports = {
   Login,
   Register,
-  ChangePassword
+  ChangePassword,
+  GetUserInfo
 }

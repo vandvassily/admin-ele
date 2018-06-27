@@ -5,8 +5,8 @@
       <el-form-item label="账号" prop="username">
         <el-input type="text" v-model="signup.username" auto-complete="off"></el-input>
       </el-form-item>
-      <el-form-item label="密码" prop="pass">
-        <el-input type="password" @keyup.enter.native="submitForm('signupForm')" v-model="signup.pass" auto-complete="off"></el-input>
+      <el-form-item label="密码" prop="password">
+        <el-input type="password" @keyup.enter.native="submitForm('signupForm')" v-model="signup.password" auto-complete="off"></el-input>
       </el-form-item>
     </el-form>
     <div class="submit-btn">
@@ -37,10 +37,10 @@ export default {
     return {
       signup: {
         username: '',
-        pass: ''
+        password: ''
       },
       signupRole: {
-        pass: [
+        password: [
           { validator: validatePass, trigger: 'blur' }
         ],
         username: [
@@ -56,13 +56,15 @@ export default {
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.$http.post('api/register', {username: this.signup.username, password: this.signup.pass}).then((res) => {
-            this.$message({
-              showClose: true,
-              message: res.message,
-              type: res.success ? 'success' : 'error'
-            })
+          this.$store.dispatch('SignUpUser', this.signup).then(res => {
             if (res.success === true) {
+              this.$message({
+                showClose: true,
+                message: res.message,
+                type: 'success'
+              })
+              localStorage.token = res.token
+              localStorage.username = res.username
               setTimeout(this.$router.push({ path: '/login' }), 300)
             }
           })

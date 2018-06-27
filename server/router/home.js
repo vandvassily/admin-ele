@@ -5,5 +5,6 @@ module.exports = {
   },
   Login: UserController.Login,
   Register: UserController.Register,
-  PasswordReset: UserController.ChangePassword
+  PasswordReset: UserController.ChangePassword,
+  GetUserInfo: UserController.GetUserInfo
 }

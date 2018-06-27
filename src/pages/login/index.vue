@@ -5,8 +5,8 @@
       <el-form-item label="账号" prop="username">
         <el-input type="text" v-model="login.username" auto-complete="off"></el-input>
       </el-form-item>
-      <el-form-item label="密码" prop="pass">
-        <el-input type="password" @keyup.enter.native="submitForm('loginForm')" v-model="login.pass" auto-complete="off"></el-input>
+      <el-form-item label="密码" prop="password">
+        <el-input type="password" @keyup.enter.native="submitForm('loginForm')" v-model="login.password" auto-complete="off"></el-input>
       </el-form-item>
     </el-form>
     <div class="submit-btn">
@@ -37,10 +37,10 @@ export default {
     return {
       login: {
         username: '',
-        pass: ''
+        password: ''
       },
       loginRule: {
-        pass: [
+        password: [
           { validator: validatePass, trigger: 'blur' }
         ],
         username: [
@@ -56,7 +56,7 @@ export default {
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.$http.post('api/login', {username: this.login.username, password: this.login.pass}).then((res) => {
+          this.$store.dispatch('LoginByUsername', this.login).then(res => {
             if (res.success === true) {
               this.$message({
                 showClose: true,
@@ -73,7 +73,6 @@ export default {
             message: '请填写账号密码',
             type: 'error'
           })
-          return false
         }
       })
     }

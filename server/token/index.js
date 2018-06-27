@@ -11,6 +11,10 @@ const createToken = (username) => {
   return token
 }
 
+const getUsername = (token) => {
+  return jwt.decode(token).username
+}
+
 const checkToken = async (ctx, next) => {
   if (ctx.request.header['authorization']) {
     const token = ctx.request.header['authorization']
@@ -26,5 +30,6 @@ const checkToken = async (ctx, next) => {
 
 module.exports = {
   createToken,
-  checkToken
+  checkToken,
+  getUsername
 }
